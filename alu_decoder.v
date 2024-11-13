@@ -1,7 +1,6 @@
 module alu_decoder (
     input [1:0] ALUOp,
-    input funct7,
-    input opcode5,
+    input [6:0] funct7,opcode,
     input [2:0] funct3,
 
     output reg [2:0] ALUControl
@@ -14,7 +13,7 @@ module alu_decoder (
 
     wire [1:0] concatenation;
 
-    assign concatenation = {opcode5, funct7};
+    assign concatenation = {opcode[5], funct7};
     assign ALUControl = (ALUOP == 2'b00) ? add : // performs lw, sw operation
                         (ALUOP == 2'b01) ? sub : //performs beq operation
                         ((ALUOP == 2'b10) & (funct3 == 3'b010)) ? slt : // performs slt operation

@@ -1,18 +1,14 @@
-module data_memory (Address, writeData, clk, writeEnable, RD);
-    input clk, writeEnable;
-    input [31:0] Address, writeData;
-
-    output [31:0] RD;
-
+module data_memory (
+    input [31:0] A, writeData,
+    input clk, rst, writeEnable,
+    output [31:0] RD
+);
     reg [31:0] data_memory [1023:0];
 
-    //read
-    assign RD = (~writeEnable) ? data_memory[Address] : 32'h00000000;
+    assign RD = (~writeEnable) ? data_memory[A] : 32'h00000000;
 
-    //write
-    always @(posedge clk ) begin
-        if(writeEnable) begin
-            data_memory[Address] <= writeData;
-        end
+    always @(posedge clk) begin
+        if (writeEnable)
+            data_memory[A] <= writeData;
     end
 endmodule
